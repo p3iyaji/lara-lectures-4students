@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\JobController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Arr;
 use App\Models\Job;
@@ -10,75 +11,29 @@ Route::get("/", function () {
     return view('home');
 });
 
+Route::view('/', 'home');
+
 //displays all jobs
-Route::get('/jobs', function () {
-    return view('jobs.index', [
-        'jobs' => Job::with('employer')->latest()->simplePaginate(50)
-    ]);
-});
+// Route::controller(JobController::class)->group(function () {
+//     Route::get('/jobs', 'index');
 
-Route::get('/jobs/create', function () {
-    return view('jobs.create');
-});
+//     Route::get('/jobs/create', 'create');
 
-Route::post('/jobs/store', function () {
-    request()->validate([
-        'title' => ['required', 'string', 'min:3'],
-        'salary' => ['required', 'string'],
-    ]);
+//     Route::post('/jobs/store', 'store');
 
-    Job::create([
-        'title' => request('title'),
-        'salary' => request('salary'),
-        'employer_id' => 2
-    ]);
-    return redirect('/jobs');
-});
+//     // Route Model Binding 
+//     Route::get('/jobs/{job}', 'edit');
 
-// Route Model Binding 
-Route::get('/jobs/{job}', function (Job $job) {
+//     Route::patch('/jobs/{job}', 'update');
 
-    return view('jobs.show', [
-        'job' => $job,
-    ]);
-});
+//     Route::delete('/jobs/{job}', 'destroy');
+// });
 
-Route::get('/jobs/{job}/edit', function (Job $job) {
-
-    return view('jobs.edit', [
-        'job' => $job,
-    ]);
-});
-
-Route::patch('/jobs/{job}', function (Job $job) {
-
-    //validate
-    request()->validate([
-        'title' => ['required', 'string', 'min:3'],
-        'salary' => ['required', 'string'],
-    ]);
-    //authorize on hold for later
-
-    //update the job // and persist
-    
-    $job->update([
-        'title' => request('title'),
-        'salary' => request('salary'),
-
-    ]);
-
-        //redirect to the job page
-
-    return redirect('/jobs/' . $job->id);
-
-});
-
-Route::delete('/jobs/{job}', function (Job $job) {
-
-    $job->delete();
-    return redirect('jobs');
-});
-
+Route::resource('jobs', JobController::class);
+// Route::resource('jobs', JobController::class, [
+//     'except' => ['edit'],
+//     //'only' => ['edit']
+// ]);
 
 Route::get('/about', function () {
     return view('about');
