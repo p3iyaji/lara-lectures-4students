@@ -35,27 +35,22 @@ Route::post('/jobs/store', function () {
     return redirect('/jobs');
 });
 
-Route::get('/jobs/{id}', function ($id) {
-
-    $selectedJob = Job::find($id);
-
+// Route Model Binding 
+Route::get('/jobs/{job}', function (Job $job) {
 
     return view('jobs.show', [
-        'job' => $selectedJob,
+        'job' => $job,
     ]);
 });
 
-Route::get('/jobs/{id}/edit', function ($id) {
-
-    $selectedJob = Job::find($id);
-
+Route::get('/jobs/{job}/edit', function (Job $job) {
 
     return view('jobs.edit', [
-        'job' => $selectedJob,
+        'job' => $job,
     ]);
 });
 
-Route::patch('/jobs/{id}', function ($id) {
+Route::patch('/jobs/{job}', function (Job $job) {
 
     //validate
     request()->validate([
@@ -65,8 +60,7 @@ Route::patch('/jobs/{id}', function ($id) {
     //authorize on hold for later
 
     //update the job // and persist
-    $job = Job::findOrFail($id);
-     
+    
     $job->update([
         'title' => request('title'),
         'salary' => request('salary'),
@@ -79,15 +73,9 @@ Route::patch('/jobs/{id}', function ($id) {
 
 });
 
-Route::delete('/jobs/{id}', function ($id) {
+Route::delete('/jobs/{job}', function (Job $job) {
 
-    //authorize (on hold for now)
-
-    //find the job
-    $selectedJob = Job::findOrFail($id);
-    $selectedJob->delete();
-
-
+    $job->delete();
     return redirect('jobs');
 });
 
