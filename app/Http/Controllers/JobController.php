@@ -20,18 +20,22 @@ class JobController extends Controller
         return view('jobs.create');
     }
 
-    public function show()
+    public function show(Job $job)
     {
-        
+        return view('jobs/show', [
+            'job'=> $job,
+        ]);
     }
 
     public function store(Request $request)
     {
+    
         request()->validate([
         'title' => ['required', 'string', 'min:3'],
         'salary' => ['required', 'string'],
     ]);
 
+    
     Job::create([
         'title' => request('title'),
         'salary' => request('salary'),
@@ -47,7 +51,7 @@ class JobController extends Controller
     ]);
     }
 
-    public function update(Job $job, Request $request)
+    public function update(Job $job)
     {
           //validate
     request()->validate([

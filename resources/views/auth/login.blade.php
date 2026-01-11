@@ -1,7 +1,7 @@
 <x-layout>
-    <x-slot:heading>Create new job</x-slot>
+    <x-slot:heading>Login</x-slot>
 
-        <form method="post" action="/jobs">
+        <form method="post" action="/login">
             @csrf
             <div class="space-y-12">
                 <div class="border-b border-gray-900/10 pb-12">
@@ -9,27 +9,28 @@
                     <p class="mt-1 text-sm/6 text-gray-600">This information will be displayed publicly so be careful what you share.</p>
 
                     <div class="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
+                        
                         <x-form-field>
-                            <x-form-label for="title">Job title</x-form-label>
+                            <x-form-label for="email">Email</x-form-label>
                             <div class="mt-2">
                                 <div class="flex items-center rounded-md bg-white pl-3 outline-1 -outline-offset-1 outline-gray-300 focus-within:outline-2 focus-within:-outline-offset-2 focus-within:outline-indigo-600">
-                                    <div class="shrink-0 text-base text-gray-500 select-none sm:text-sm/6">Enter position</div>
-                                    <x-form-input id="title" type="text" name="title" placeholder="CEO"></x-form-input>
+                                    <div class="shrink-0 text-base text-gray-500 select-none sm:text-sm/6">Email</div>
+                                    <x-form-input id="email" :value="old('email')" name="email" placeholder="email" />
                                 </div>
-                                <x-form-error name="title" />
+                                <x-form-error name="email" />
                             </div>
                         </x-form-field>
-                        <x-form-field>
-                            <x-form-label for="salary">Salary</x-form-label>
+                         <x-form-field>
+                            <x-form-label for="password">Password</x-form-label>
                             <div class="mt-2">
                                 <div class="flex items-center rounded-md bg-white pl-3 outline-1 -outline-offset-1 outline-gray-300 focus-within:outline-2 focus-within:-outline-offset-2 focus-within:outline-indigo-600">
-                                    <div class="shrink-0 text-base text-gray-500 select-none sm:text-sm/6">Enter salary</div>
-                                    <x-form-input id="salary" name="salary" placeholder="£50,000" />
+                                    <div class="shrink-0 text-base text-gray-500 select-none sm:text-sm/6">Enter password</div>
+                                    <x-form-input id="password" name="password" placeholder="password" />
                                 </div>
-                                <x-form-error name="salary" />
+                                <x-form-error name="password" />
                             </div>
                         </x-form-field>
-
+                       
                     </div>
                     
                 </div>
@@ -38,8 +39,8 @@
             </div>
 
             <div class="mt-6 flex items-center justify-end gap-x-6">
-                <button type="button" class="text-sm/6 font-semibold text-gray-900">Cancel</button>
-                <x-form-button type="submit">Save</x-form-button>
+                <a href="/" class="text-sm/6 font-semibold text-gray-900">Cancel</a>
+                <x-form-button type="submit">Login</x-form-button>
                 </div>
         </form>
 

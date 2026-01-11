@@ -30,17 +30,17 @@
           </div>
           <div class="hidden md:block">
             <div class="ml-4 flex items-center md:ml-6">
+              @guest
+              <x-nav-link href="/login" :active="request()->is('login')">Login</x-nav-link>
+              <x-nav-link href="/register" :active="request()->is('register')">Register</x-nav-link>
+              @endguest
+              @auth
+              <form method="post" action="/logout">
+                @csrf
+                <x-form-button href="/logout">Logout</x-form-button>
 
-              <!-- Profile dropdown -->
-
-              <button class="relative flex max-w-xs items-center rounded-full focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500">
-                <span class="absolute -inset-1.5"></span>
-                <span class="sr-only">Open user menu</span>
-                <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80" alt="" class="size-8 rounded-full outline -outline-offset-1 outline-white/10" />
-              </button>
-
-
-
+              </form>
+              @endauth
             </div>
           </div>
 

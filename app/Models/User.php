@@ -38,6 +38,8 @@ class User extends Authenticatable
      *
      * @return array<string, string>
      */
+
+    //helps to manipulate a value when it is called or used
     protected function casts(): array
     {
         return [
