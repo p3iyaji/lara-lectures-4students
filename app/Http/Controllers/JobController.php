@@ -3,19 +3,22 @@
 namespace App\Http\Controllers;
 
 use App\Models\Job;
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
 
 class JobController extends Controller
 {
     public function index()
     {
-         $jobs = Job::with('employer')->latest()->simplePaginate(50);
-         return view('jobs.index', [
-        'jobs' => $jobs,
-    ]);
+        $jobs = Job::with('employer')->latest()->simplePaginate(50);
+        return view('jobs.index', [
+            'jobs' => $jobs,
+        ]);
     }
 
-    public function create() 
+    public function create()
     {
         return view('jobs.create');
     }
@@ -23,59 +26,63 @@ class JobController extends Controller
     public function show(Job $job)
     {
         return view('jobs/show', [
-            'job'=> $job,
+            'job' => $job,
         ]);
     }
 
     public function store(Request $request)
     {
-    
-        request()->validate([
-        'title' => ['required', 'string', 'min:3'],
-        'salary' => ['required', 'string'],
-    ]);
 
-    
-    Job::create([
-        'title' => request('title'),
-        'salary' => request('salary'),
-        'employer_id' => 2
-    ]);
-    return redirect('/jobs');
+        request()->validate([
+            'title' => ['required', 'string', 'min:3'],
+            'salary' => ['required', 'string'],
+        ]);
+
+
+        Job::create([
+            'title' => request('title'),
+            'salary' => request('salary'),
+            'employer_id' => 1,
+        ]);
+        return redirect('/jobs');
     }
 
     public function edit(Job $job)
     {
-       return view('jobs.edit', [
-        'job' => $job,
-    ]);
+
+        //Gate::authorize('edit-job', $job);
+        
+
+        return view('jobs.edit', [
+            'job' => $job,
+        ]);
     }
 
     public function update(Job $job)
     {
-          //validate
-    request()->validate([
-        'title' => ['required', 'string', 'min:3'],
-        'salary' => ['required', 'string'],
-    ]);
-    //authorize on hold for later
+        //validate
+        request()->validate([
+            'title' => ['required', 'string', 'min:3'],
+            'salary' => ['required', 'string'],
+        ]);
+        //authorize on hold for later
 
-    //update the job // and persist
-    
-    $job->update([
-        'title' => request('title'),
-        'salary' => request('salary'),
+        //update the job // and persist
 
-    ]);
+        $job->update([
+            'title' => request('title'),
+            'salary' => request('salary'),
+
+        ]);
 
         //redirect to the job page
 
-    return redirect('/jobs/' . $job->id);
+        return redirect('/jobs/' . $job->id);
     }
 
     public function destroy(Job $job)
     {
         $job->delete();
-    return redirect('jobs');
+        return redirect('jobs');
     }
 }

@@ -9,5 +9,7 @@
                     <h3>This job pays: <span class="text-green-600 font-semibold">{{ $job->salary }}</span></h3>
             </ul>
         </div>
+        @can('edit-job', $job)
         <p class="mt-4"><x-button href="/jobs/{{ $job->id }}/edit">Edit job</x-button></p>
+        @endcan
 </x-layout>
