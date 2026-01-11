@@ -16,7 +16,12 @@ Route::get("/", function () {
 Route::view('/', 'home');
 
 Route::get('test', function () {
-    Mail::to('p3.iyaji@gmail.com')->send(new JobPosted());
+    //Mail::to('p3.iyaji@gmail.com')->send(new JobPosted());
+    dispatch(function() {
+        logger('hello from the queue!');
+    })->delay(5);
+
+    return 'Done';
 });
 
 Route::get('/register', [RegisteredUserController::class, 'create']);
